@@ -43,8 +43,8 @@ def text_box(draw, coordinates, text, font, alert=False):
         text_colour = WHITE
     else:
         box_colour = WHITE
-        outline_colour = RED
-        text_colour = RED
+        outline_colour = BLACK
+        text_colour = BLACK
 
     # Draw text box
     draw.rectangle(coordinates, fill=box_colour, width=2,
