@@ -23,12 +23,17 @@ def main():
         "--name", "-n", type=str, required=False,
         help="The name of the person who has reserved the desk"
         )
+    parser.add_argument(
+        "--until", "-u", type=str, required=False,
+        help="The time when a desk is free until"
+        )
 
     clargs = parser.parse_args()
 
     inky_display = InkyPHAT(COLOUR)
 
-    update_display(inky_display, clargs.status, clargs.desk_id, clargs.name)
+    update_display(inky_display, clargs.status, clargs.desk_id, clargs.name,
+                   clargs.until)
 
 
 def text_box(draw, coordinates, text, font, alert=False):
@@ -57,12 +62,12 @@ def text_box(draw, coordinates, text, font, alert=False):
     draw.text((x, y), text, fill=text_colour, font=font)
 
 
-def update_display(inky_display, status, desk_id, name=None):
+def update_display(inky_display, status, desk_id, name=None, until=None):
     image = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
     draw = ImageDraw.Draw(image)
 
     status_font = ImageFont.truetype(SourceSansPro, 32)
-    name_font = ImageFont.truetype(SourceSansPro, 24)
+    info_font = ImageFont.truetype(SourceSansPro, 24)
 
     # Status box
     if status == "taken":
@@ -75,10 +80,15 @@ def update_display(inky_display, status, desk_id, name=None):
     text_box(draw, (inky_display.width-106, 0, inky_display.width-1, 52),
              desk_id, status_font)
 
-    # Name box
+    # Information box
     if status == "taken":
-        text_box(draw, (0, 53, inky_display.width-1, inky_display.height-1),
-                 name, name_font)
+        info = name
+    elif status == "free":
+        info = f"Free until: {until}"
+    if info is None:
+        info = ""
+    text_box(draw, (0, 53, inky_display.width-1, inky_display.height-1),
+             info, info_font)
 
     # Send image to buffer
     inky_display.set_image(image)
