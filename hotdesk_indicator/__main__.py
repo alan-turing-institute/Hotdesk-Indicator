@@ -4,6 +4,9 @@ from inky import InkyPHAT
 from font_source_sans_pro import SourceSansPro
 
 COLOUR = "red"
+BLACK = InkyPHAT.BLACK
+WHITE = InkyPHAT.WHITE
+RED = InkyPHAT.RED
 
 
 def main():
@@ -28,6 +31,32 @@ def main():
     update_display(inky_display, clargs.status, clargs.desk_id, clargs.name)
 
 
+def text_box(draw, coordinates, text, font, alert=False):
+    if alert:
+        box_colour = RED
+        outline_colour = WHITE
+        text_colour = WHITE
+    else:
+        box_colour = WHITE
+        outline_colour = RED
+        text_colour = RED
+
+    # Draw text box
+    draw.rectangle(coordinates, fill=box_colour, width=2,
+                   outline=outline_colour)
+
+    # Get dimensions of text
+    text_width, text_height = font.getsize(text)
+
+    # Determine the top left coordinate of text
+    x0, y0, x1, y1 = coordinates
+    # x = x0 + (x1-x0)//2 - text_width//2
+    x = (x0+x1)//2 - text_width//2
+    # y = y0 + (y1-y0)//2 - text_height//2
+    y = (y0+y1)//2 - text_height//2
+    draw.text((x, y), text, fill=text_colour, font=font)
+
+
 def update_display(inky_display, status, desk_id, name=None):
     image = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
     draw = ImageDraw.Draw(image)
@@ -37,47 +66,18 @@ def update_display(inky_display, status, desk_id, name=None):
 
     # Status box
     if status == "taken":
-        box_colour = inky_display.RED
-        outline_colour = inky_display.WHITE
-        font_colour = inky_display.WHITE
+        alert = True
     elif status == "free":
-        box_colour = inky_display.WHITE
-        outline_colour = inky_display.RED
-        font_colour = inky_display.RED
-
-    draw.rectangle([(0, 0), (106, 52)], fill=box_colour, width=2,
-                   outline=outline_colour)
-
-    status_text = status.upper()
-    status_w, status_h = status_font.getsize(status_text)
-    x = (106 - status_w) // 2
-    y = (52 - status_h) // 2
-    draw.text((x, y), status_text, fill=font_colour, font=status_font)
+        alert = False
+    text_box(draw, (0, 0, 106, 52), status.upper(), status_font, alert=alert)
 
     # ID box
-    box_colour = inky_display.WHITE
-    outline_colour = inky_display.RED
-    font_colour = inky_display.RED
-
-    draw.rectangle([(inky_display.width-106, 0), (inky_display.width-1, 52)],
-                   fill=box_colour, width=2, outline=outline_colour)
-
-    id_w, id_h = status_font.getsize(desk_id)
-    x = inky_display.width - 106 // 2
-    x -= id_w // 2
-    y = (52 - id_h) // 2
-    draw.text((x, y), desk_id, fill=font_colour, font=status_font)
+    text_box(draw, (inky_display.width-106, 0, inky_display.width-1, 52),
+             desk_id, status_font)
 
     # Name box
-    draw.rectangle([(0, 53), (inky_display.width-1, inky_display.height-1)],
-                   fill=inky_display.WHITE, width=2, outline=inky_display.RED)
-    if status == "taken":
-        assert name is not None
-        name_w, name_h = name_font.getsize(name)
-        x = (inky_display.width - name_w) // 2
-        y = inky_display.height - 53 // 2
-        y -= name_h // 2
-        draw.text((x, y), name, fill=inky_display.RED, font=name_font)
+    text_box(draw, (0, 53, inky_display.width-1, inky_display.height-1),
+             name, name_font)
 
     # Send image to buffer
     inky_display.set_image(image)
