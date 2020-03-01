@@ -76,8 +76,9 @@ def update_display(inky_display, status, desk_id, name=None):
              desk_id, status_font)
 
     # Name box
-    text_box(draw, (0, 53, inky_display.width-1, inky_display.height-1),
-             name, name_font)
+    if status == "taken":
+        text_box(draw, (0, 53, inky_display.width-1, inky_display.height-1),
+                 name, name_font)
 
     # Send image to buffer
     inky_display.set_image(image)
