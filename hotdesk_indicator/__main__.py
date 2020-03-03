@@ -39,7 +39,7 @@ def main():
 def text_box(draw, coordinates, text, font, alert=False):
     if alert:
         box_colour = RED
-        outline_colour = WHITE
+        outline_colour = BLACK
         text_colour = WHITE
     else:
         box_colour = WHITE
