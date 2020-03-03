@@ -47,7 +47,7 @@ def text_box(draw, coordinates, text, font, alert=False):
         text_colour = BLACK
 
     # Draw text box
-    draw.rectangle(coordinates, fill=box_colour, width=2,
+    draw.rectangle(coordinates, fill=box_colour, width=1,
                    outline=outline_colour)
 
     # Get dimensions of text
