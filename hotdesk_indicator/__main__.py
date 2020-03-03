@@ -84,7 +84,10 @@ def update_display(inky_display, status, desk_id, name=None, until=None):
     if status == "taken":
         info = name
     elif status == "free":
-        info = f"Free until: {until}"
+        if until is None:
+            info = ""
+        else:
+            info = f"Free until: {until}"
     if info is None:
         info = ""
     text_box(draw, (0, 53, inky_display.width-1, inky_display.height-1),
