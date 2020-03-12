@@ -6,11 +6,13 @@ setup(
     packages=find_packages(),
     install_requites=[
         "inky",
-        "font-source-sans-pro"
+        "font-source-sans-pro",
+        "requests"
         ],
     entry_points={
         "console_scripts": [
             "hotdesk-set = hotdesk_indicator.scripts.set:main",
+            "hotdesk-get = hotdesk_indicator.scripts.get:main"
             ]
         }
     )
