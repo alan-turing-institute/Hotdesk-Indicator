@@ -10,7 +10,7 @@ setup(
         ],
     entry_points={
         "console_scripts": [
-            "hotdesk-indicator = hotdesk_indicator.__main__:main"
+            "hotdesk-set = hotdesk_indicator.scripts.set:main",
             ]
         }
     )

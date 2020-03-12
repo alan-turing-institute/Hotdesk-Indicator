@@ -1,4 +1,4 @@
-from .desk import update_display
+from ..desk import update_display
 import argparse
 from inky import InkyPHAT
 
