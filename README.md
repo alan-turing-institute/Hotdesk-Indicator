@@ -27,5 +27,11 @@ $ pip3 install .
 A summary of the usage commands can be seen with
 
 ```
-$ hotdesk-indicator -h
+$ hotdesk-set -h
+```
+
+and
+
+```
+$ hotdesk-get -h
 ```
