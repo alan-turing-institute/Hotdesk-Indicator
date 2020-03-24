@@ -1,3 +1,4 @@
+"""Set desk status 'offline'."""
 from ..desk import update_display
 import argparse
 from inky import InkyPHAT
@@ -6,6 +7,7 @@ COLOUR = "red"
 
 
 def main():
+    """Set desk status 'offline'."""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--status", "-s", type=str, required=True, choices=["taken", "free"],

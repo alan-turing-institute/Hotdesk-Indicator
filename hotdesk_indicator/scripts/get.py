@@ -1,3 +1,4 @@
+"""Get desk status from API."""
 from ..desk import update_display
 import argparse
 from inky import InkyPHAT
@@ -7,6 +8,7 @@ COLOUR = "red"
 
 
 def main():
+    """Get desk status from API."""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--desk-id", "-i", type=str, required=True,
