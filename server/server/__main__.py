@@ -1,10 +1,12 @@
 """Flask RESTful API for hotdesk indicators."""
 from collections import defaultdict
-from flask import Flask
+from flask import Flask, render_template
+from flask_bootstrap import Bootstrap
 from flask_restful import Resource, Api
 
 app = Flask(__name__)
 api = Api(app)
+bootstrap = Bootstrap(app)
 
 
 def default_desk_status():
@@ -18,6 +20,19 @@ def default_desk_status():
 
 
 desk_status = defaultdict(default_desk_status)
+
+
+desk_status['REG-42'] = {
+    "status": "taken",
+    "name": "Kaiser Söze",
+    "until": None
+    }
+
+desk_status['REG-07'] = {
+    "status": "free",
+    "name": "Kaiser Söze",
+    "until": "14:00"
+    }
 
 
 class DeskStatus(Resource):
@@ -40,5 +55,12 @@ class DeskStatus(Resource):
 
 api.add_resource(DeskStatus, '/<string:desk_id>')
 
+
+@app.route('/')
+def index():
+    """Index route."""
+    return render_template('index.html')
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
