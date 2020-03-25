@@ -1,7 +1,7 @@
 """Flask RESTful API for hotdesk indicators."""
 from collections import defaultdict
 import datetime
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_restful import Resource, Api
 from flask_wtf import FlaskForm
@@ -97,8 +97,8 @@ def book():
         desk = form.desk.data
         from_when = form.from_when.data
         until_when = form.until_when.data
-        print(name, desk, from_when, until_when)
-        return render_template('index.html')
+        print(name, desk, from_when.time(), until_when.time())
+        return redirect(url_for('index'))
     return render_template('book.html', form=form)
 
 
