@@ -98,6 +98,7 @@ def book():
         from_when = form.from_when.data
         until_when = form.until_when.data
         print(name, desk, from_when.time(), until_when.time())
+        flash('Your desk is booked!')
         return redirect(url_for('index'))
     return render_template('book.html', form=form)
 
