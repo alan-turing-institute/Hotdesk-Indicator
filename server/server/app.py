@@ -3,6 +3,7 @@ from collections import defaultdict
 import datetime
 from flask import Flask, render_template, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
+from flask_migrate import Migrate
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
@@ -22,6 +23,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 api = Api(app)
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 
 # Define models(tables)
@@ -141,8 +143,3 @@ def bookings():
     """Route to show all bookings."""
     bookings = Booking.query.all()
     return render_template('bookings.html', bookings=bookings)
-
-
-if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True, host='0.0.0.0')
