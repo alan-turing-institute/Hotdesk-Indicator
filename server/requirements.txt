@@ -2,3 +2,4 @@ flask
 flask_bootstrap
 flask_restful
 flask_wtf
+flask_sqlalchemy
