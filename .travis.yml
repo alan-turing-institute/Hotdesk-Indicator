@@ -5,3 +5,10 @@ install:
 
 script:
   - flake8
+
+jobs:
+  include:
+    - name: Lint client
+      script: flake8 client
+    - name: Lint server
+      script: flake8 server --exclude server/migrations
