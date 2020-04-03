@@ -11,8 +11,7 @@ db = SQLAlchemy()
 def create_app(config_name):
     """Create Flask App instance."""
     app = Flask(__name__)
-    # app.config.from_object(configs[config_name])
-    app.config.from_object(configs["default"])
+    app.config.from_object(configs[config_name])
 
     bootstrap.init_app(app)
     db.init_app(app)
