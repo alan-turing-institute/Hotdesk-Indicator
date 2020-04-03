@@ -132,8 +132,15 @@ def book():
         db.session.add(booking)
         db.session.commit()
         flash('Your desk is booked!')
-        return redirect(url_for('index'))
+        return redirect(url_for('bookings'))
     return render_template('book.html', form=form)
+
+
+@app.route('/bookings')
+def bookings():
+    """Route to show all bookings."""
+    bookings = Booking.query.all()
+    return render_template('bookings.html', bookings=bookings)
 
 
 if __name__ == '__main__':

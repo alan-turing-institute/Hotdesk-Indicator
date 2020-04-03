@@ -6,13 +6,5 @@
     <h1>Book a Desk</h1>
 </div>
 
-<!-- <form method="POST"> -->
-<!--     {{ form.hidden_tag() }} -->
-<!--     {{ form.name.label }} {{ form.name }} -->
-<!--     {{ form.desk.label }} {{ form.desk }} -->
-<!--     {{ form.from_when.label }} {{ form.from_when }} -->
-<!--     {{ form.until_when.label }} {{ form.until_when }} -->
-<!--     {{ form.submit() }} -->
-<!-- </form> -->
 {{ wtf.quick_form(form) }}
 {% endblock %}
