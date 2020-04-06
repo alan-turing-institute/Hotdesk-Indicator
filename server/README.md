@@ -18,7 +18,7 @@ To initiate the database use a Flask shell session with the appropriate
 configuration,
 
 ```
-$ FLASK_APP=hotdesk.py FLASK_CONFIG=<config> flask shell
+$ FLASK_APP="hotdesk:create_app('<config>')" flask shell
 ...
 >>> db.create_all()
 >>> exit()
@@ -27,5 +27,5 @@ $ FLASK_APP=hotdesk.py FLASK_CONFIG=<config> flask shell
 To run the app,
 
 ```
-$ FLASK_APP=hotdesk.py FLASK_CONFIG=<config> flask run
+$ FLASK_APP="hotdesk:create_app('<config>')" flask run
 ```
