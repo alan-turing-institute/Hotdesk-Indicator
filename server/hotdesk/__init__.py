@@ -21,7 +21,7 @@ def create_app(test_config=None):
         SQLALCHEMY_TRACK_MODIFICATIONS=False
         )
 
-    pathlib.Path(app.instance_path).mkdir(exist_ok=True)
+    pathlib.Path(app.instance_path).mkdir(parents=True, exist_ok=True)
 
     if test_config:
         app.config.update(test_config)

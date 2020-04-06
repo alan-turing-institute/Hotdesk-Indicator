@@ -1,10 +1,7 @@
 language: python
 
-install:
+before_install:
   - pip install flake8 flake8-docstrings
-
-script:
-  - flake8
 
 jobs:
   include:
@@ -12,3 +9,7 @@ jobs:
       script: flake8 client
     - name: Lint server
       script: flake8 server --exclude server/migrations
+    - name: Test server
+      before_install: pip install pytest pytest-cov
+      install: pip install ./server
+      script: pytest --cov=./server/hotdesk ./server
