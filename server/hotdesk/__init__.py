@@ -1,5 +1,5 @@
 """App module."""
-from config import configs
+from .config import configs
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
