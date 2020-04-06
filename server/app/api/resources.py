@@ -18,6 +18,7 @@ def default_desk_status():
 desk_status = defaultdict(default_desk_status)
 
 
+@api.resource('/api/get/<string:desk_id>')
 class DeskStatus(Resource):
     """Desk status RESTful resource."""
 
@@ -34,6 +35,3 @@ class DeskStatus(Resource):
         :rtype: dict
         """
         return desk_status[desk_id]
-
-
-api.add_resource(DeskStatus, '/api/get/<string:desk_id>')
