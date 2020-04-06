@@ -9,10 +9,13 @@ bootstrap = Bootstrap()
 db = SQLAlchemy()
 
 
-def create_app(config_name):
+def create_app(config_name=None):
     """Create Flask App instance."""
     app = Flask(__name__)
-    app.config.from_object(configs[config_name])
+    if config_name is None:
+        app.config.from_object(configs['development'])
+    else:
+        app.config.from_object(configs[config_name])
 
     bootstrap.init_app(app)
     db.init_app(app)

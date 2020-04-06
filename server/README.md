@@ -29,3 +29,10 @@ To run the app,
 ```
 $ FLASK_APP="hotdesk:create_app('<config>')" flask run
 ```
+
+If no configuration is specified, the "development" configuration will be used.
+For example,
+
+```
+$ FLASK_APP=hotdesk flask run
+```
