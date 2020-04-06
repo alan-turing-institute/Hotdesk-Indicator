@@ -8,6 +8,8 @@ base_dir = pathlib.Path(__file__).parent.absolute()
 class Config(object):
     """App configuration base class."""
 
+    DEBUG = False
+    TESTING = False
     SECRET_KEY = os.environ.get("SECRET_KEY") or "uxh)9l8;{P-us_&h>@q{u"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -15,6 +17,7 @@ class Config(object):
 class Development(Config):
     """Development configuration."""
 
+    DEBUG = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + str(base_dir / "data.sqlite")
 
 
