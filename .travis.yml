@@ -12,5 +12,5 @@ jobs:
     - name: Test server
       before_install: pip install pytest pytest-cov
       install: pip install ./server
-      script: pytest --cov=./server/hotdesk ./server
+      script: pytest -v --cov=./server/hotdesk ./server
       after_sucess: codecov
