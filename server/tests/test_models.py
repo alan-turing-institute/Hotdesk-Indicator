@@ -52,15 +52,21 @@ class TestBookings():
     """Test the bookings model."""
 
     @pytest.mark.parametrize(
-        "name", ["Harry Lime", "Kaiser Söze", "Sam Spade"]
+        "name,from_when,until_when,desk_name",
+        [("Harry Lime", time(9, 00), time(17, 00), "DESK-01"),
+         ("Kaiser Söze", time(9, 00), time(12, 00), "DESK-02"),
+         ("Sam Spade", time(13, 00), time(16, 00), "DESK-02")]
         )
-    def test_existing(self, app, name):
+    def test_existing(self, app, name, from_when, until_when, desk_name):
         """Ensure the bookings initialised in the app fixture are present."""
         with app.app_context():
             booking = Booking.query.filter_by(name=name).all()
             assert len(booking) == 1
             booking = booking[0]
             assert booking.name == name
+            assert booking.from_when == from_when
+            assert booking.until_when == until_when
+            assert booking.desk.name == desk_name
 
     def test_size(self, app):
         """Ensure only the initialised bookings are present."""
