@@ -10,7 +10,7 @@ jobs:
     - name: Lint server
       script: flake8 server --exclude server/migrations
     - name: Test server
-      before_install: pip install pytest pytest-cov
+      before_install: pip install pytest pytest-cov codecov
       install: pip install ./server
       script: pytest -v --cov=./server/hotdesk ./server
       after_sucess: codecov
