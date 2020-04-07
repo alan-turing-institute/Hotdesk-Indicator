@@ -37,3 +37,7 @@ class TestContents():
             <td>{until_when}</td>
         </tr>"""
         assert row in bookings_response.get_data(as_text=True)
+
+    def test_missing_desk(self, bookings_response):
+        """Ensure DESK-03 is not present as it is not booked."""
+        assert "DESK-03" not in bookings_response.get_data(as_text=True)
