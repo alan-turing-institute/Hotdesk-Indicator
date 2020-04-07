@@ -40,19 +40,19 @@ def populate_database(db):
         name="Harry Lime",
         from_when=time(9, 0),
         until_when=time(17, 0),
-        desk_id=desks[0].id
+        desk=desks[0]
         ))
     bookings.append(Booking(
         name="Kaiser Söze",
         from_when=time(9, 0),
         until_when=time(12, 0),
-        desk_id=desks[1].id
+        desk=desks[1]
         ))
     bookings.append(Booking(
         name="Sam Spade",
         from_when=time(13, 0),
         until_when=time(16, 0),
-        desk_id=desks[1].id
+        desk=desks[1]
         ))
 
     db.session.add_all(desks+bookings)

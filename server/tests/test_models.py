@@ -59,7 +59,8 @@ class TestBookings():
         with app.app_context():
             booking = Booking.query.filter_by(name=name).all()
             assert len(booking) == 1
-            assert booking[0].name == name
+            booking = booking[0]
+            assert booking.name == name
 
     def test_size(self, app):
         """Ensure only the initialised bookings are present."""
@@ -75,7 +76,7 @@ class TestBookings():
                 name="Richard Hannay",
                 from_when=time(10, 30),
                 until_when=time(14, 15),
-                desk_id=desk.id
+                desk=desk
                 )
 
             db.session.add(booking)
@@ -90,6 +91,7 @@ class TestBookings():
             assert new_booking.name == "Richard Hannay"
             assert new_booking.from_when == time(10, 30)
             assert new_booking.until_when == time(14, 15)
+            assert new_booking.desk == desk
             assert new_booking.desk_id == desk.id
 
     def test_remove(self, app):
