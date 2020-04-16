@@ -12,7 +12,8 @@ def app(tmp_path):
 
     app = create_app({
         "TESTING": True,
-        "SQLALCHEMY_DATABASE_URI": "sqlite:///" + str(db_path)
+        "SQLALCHEMY_DATABASE_URI": "sqlite:///" + str(db_path),
+        "WTF_CSRF_ENABLED": False
         })
 
     with app.app_context():
