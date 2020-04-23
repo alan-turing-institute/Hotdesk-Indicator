@@ -2,7 +2,7 @@
 from . import main
 from .forms import BookingForm
 from .. import db
-from ..models import Booking
+from ..models import Booking, Desk
 from flask import render_template, redirect, url_for, flash
 
 
@@ -35,3 +35,10 @@ def bookings():
     """Route to show all bookings."""
     bookings = Booking.query.all()
     return render_template('bookings.html', bookings=bookings)
+
+
+@main.route('/desks')
+def desks():
+    """Route to show all desks and their current status."""
+    desks = Desk.query.all()
+    return render_template('desks.html', desks=desks)
