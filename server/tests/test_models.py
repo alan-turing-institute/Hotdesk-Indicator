@@ -1,5 +1,5 @@
 """Test SQLAlchemy models."""
-from datetime import time
+from datetime import datetime, time, timedelta
 from hotdesk import db
 from hotdesk.models import Desk, Booking
 import pytest
@@ -111,3 +111,45 @@ class TestBookings():
             assert booking is None
             bookings = Booking.query.all()
             assert len(bookings) == 2
+
+    def test_is_active(self, app):
+        """Test the is_active method."""
+        current_time = datetime.now()
+
+        with app.app_context():
+            desk = Desk.query.filter_by(name="DESK-03").first()
+            booking = Booking(
+                name="Richard Hannay",
+                from_when=current_time.time(),
+                until_when=(current_time + timedelta(minutes=1)).time(),
+                desk=desk
+                )
+
+            db.session.add(booking)
+            db.session.commit()
+
+            new_booking = (
+                Booking.query.filter_by(name="Richard Hannay").first()
+                )
+            assert new_booking.is_active()
+
+    def test_is_active2(self, app):
+        """Test the is_active method."""
+        current_time = datetime.now()
+
+        with app.app_context():
+            desk = Desk.query.filter_by(name="DESK-03").first()
+            booking = Booking(
+                name="Richard Hannay",
+                from_when=(current_time - timedelta(minutes=1)).time(),
+                until_when=current_time.time(),
+                desk=desk
+                )
+
+            db.session.add(booking)
+            db.session.commit()
+
+            new_booking = (
+                Booking.query.filter_by(name="Richard Hannay").first()
+                )
+            assert not new_booking.is_active()

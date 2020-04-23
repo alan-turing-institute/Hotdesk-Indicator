@@ -1,5 +1,6 @@
 """Model (databate table) definitions."""
 from . import db
+import datetime
 
 
 class Desk(db.Model):
@@ -21,3 +22,10 @@ class Booking(db.Model):
     from_when = db.Column(db.Time, unique=False)
     until_when = db.Column(db.Time, unique=False)
     desk_id = db.Column(db.Integer, db.ForeignKey('desks.id'))
+
+    def is_active(self):
+        current_time = datetime.datetime.now().time()
+        active = (
+            current_time >= self.from_when and current_time < self.until_when
+            )
+        return active
