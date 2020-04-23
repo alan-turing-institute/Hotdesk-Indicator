@@ -12,6 +12,13 @@ class Desk(db.Model):
     # One to many relationship to bookings
     bookings = db.relationship('Booking', backref='desk', lazy='dynamic')
 
+    def is_booked(self):
+        """Find if a desk is currently booked."""
+        if any((booking.is_active() for booking in self.bookings)):
+            return True
+        else:
+            return False
+
 
 class Booking(db.Model):
     """Booking model."""

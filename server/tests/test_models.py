@@ -112,7 +112,11 @@ class TestBookings():
             bookings = Booking.query.all()
             assert len(bookings) == 2
 
-    def test_is_active(self, app):
+
+class TestActiveAndBooked:
+    """Test the is_active and is_booked methods."""
+
+    def test_active_booked(self, app):
         """Test the is_active method."""
         current_time = datetime.now()
 
@@ -132,8 +136,9 @@ class TestBookings():
                 Booking.query.filter_by(name="Richard Hannay").first()
                 )
             assert new_booking.is_active()
+            assert desk.is_booked()
 
-    def test_is_active2(self, app):
+    def test_not_active_booked(self, app):
         """Test the is_active method."""
         current_time = datetime.now()
 
@@ -153,3 +158,4 @@ class TestBookings():
                 Booking.query.filter_by(name="Richard Hannay").first()
                 )
             assert not new_booking.is_active()
+            assert not desk.is_booked()
