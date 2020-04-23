@@ -11,6 +11,7 @@
             <th scope="col">Name</th>
             <th scope="col">From</th>
             <th scope="col">Until</th>
+            <th scope="col">Active</th>
         </tr>
     </thead>
     <tbody>
@@ -21,6 +22,7 @@
             <td>{{ booking.name }}</td>
             <td>{{ booking.from_when.strftime("%H:%M") }}</td>
             <td>{{ booking.until_when.strftime("%H:%M") }}</td>
+            <td>{{ "Yes" if booking.is_active() else "No" }}</td>
         </tr>
         {% endfor %}
     </tbody>
