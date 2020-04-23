@@ -24,6 +24,7 @@ class Booking(db.Model):
     desk_id = db.Column(db.Integer, db.ForeignKey('desks.id'))
 
     def is_active(self):
+        """Find if a booking is currently active."""
         current_time = datetime.datetime.now().time()
         active = (
             current_time >= self.from_when and current_time < self.until_when
