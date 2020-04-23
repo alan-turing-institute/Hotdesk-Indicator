@@ -137,6 +137,7 @@ class TestActiveAndBooked:
                 )
             assert new_booking.is_active()
             assert desk.is_booked()
+            assert desk.active_booking() == new_booking
 
     def test_not_active_booked(self, app):
         """Test the is_active method."""
@@ -159,3 +160,4 @@ class TestActiveAndBooked:
                 )
             assert not new_booking.is_active()
             assert not desk.is_booked()
+            assert desk.active_booking() is None

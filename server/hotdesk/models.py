@@ -19,6 +19,14 @@ class Desk(db.Model):
         else:
             return False
 
+    def active_booking(self):
+        """Return the active booking for this desk if there is one."""
+        for booking in self.bookings:
+            if booking.is_active():
+                return booking
+
+        return None
+
 
 class Booking(db.Model):
     """Booking model."""
