@@ -27,8 +27,8 @@ def upgrade():
     op.create_table('bookings',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=True),
-    sa.Column('from_when', sa.Time(), nullable=True),
-    sa.Column('until_when', sa.Time(), nullable=True),
+    sa.Column('from_when', sa.DateTime(), nullable=True),
+    sa.Column('until_when', sa.DateTime(), nullable=True),
     sa.Column('desk_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['desk_id'], ['desks.id'], ),
     sa.PrimaryKeyConstraint('id')
