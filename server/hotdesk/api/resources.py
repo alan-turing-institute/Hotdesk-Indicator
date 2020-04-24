@@ -1,24 +1,10 @@
 """RESTful API resources."""
 from . import api
-from collections import defaultdict
+from ..models import Desk
 from flask_restful import Resource
 
 
-# Construct desk status dictionary
-def default_desk_status():
-    """Produce the default desk status entry."""
-    status = {
-        "status": "free",
-        "name": None,
-        "until": None
-        }
-    return status
-
-
-desk_status = defaultdict(default_desk_status)
-
-
-@api.resource('/api/get/<string:desk_id>')
+@api.resource('/api/desk_status/<string:desk_id>')
 class DeskStatus(Resource):
     """Desk status RESTful resource."""
 
@@ -34,4 +20,20 @@ class DeskStatus(Resource):
         :returns: The status of desk `desk_id`.
         :rtype: dict
         """
-        return desk_status[desk_id]
+        desk = Desk.query.get_or_404(desk_id)
+        if desk.is_booked():
+            booked = True
+            active_booking = desk.active_booking()
+            until = active_booking.until_when.strftime("%H:%M")
+            by = active_booking.name
+        else:
+            booked = False
+            until = "n/a"
+            by = "n/a"
+
+        return {
+            "name": desk.name,
+            "booked": booked,
+            "by": by,
+            "until": until
+            }
