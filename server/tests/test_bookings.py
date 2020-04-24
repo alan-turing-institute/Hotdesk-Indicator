@@ -34,7 +34,9 @@ class TestContents():
             <td>{desk_id}</td>
             <td>{name}</td>
             <td>{from_when}</td>
-            <td>{until_when}</td>"""
+            <td>{until_when}</td>
+            <td>No</td>
+        </tr>"""
         assert row in bookings_response.get_data(as_text=True)
 
     def test_missing_desk(self, bookings_response):

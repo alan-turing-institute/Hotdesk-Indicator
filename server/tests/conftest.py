@@ -1,12 +1,24 @@
 """pytest shared fixtures."""
-from datetime import time
+from datetime import datetime, time, timedelta
 from hotdesk import create_app, db
 from hotdesk.models import Desk, Booking
 import pytest
 
 
+@pytest.fixture(scope="session")
+def today():
+    """Today's date."""
+    return datetime.now().date()
+
+
+@pytest.fixture(scope="session")
+def yesterday():
+    """Yesterday's date."""
+    return datetime.now().date() - timedelta(days=1)
+
+
 @pytest.fixture
-def app(tmp_path):
+def app(tmp_path, yesterday):
     """Create a testing instance of the app."""
     db_path = tmp_path / "data-test.sqlite"
 
@@ -18,7 +30,7 @@ def app(tmp_path):
 
     with app.app_context():
         db.create_all()
-        populate_database(db)
+        populate_database(db, yesterday)
 
     return app
 
@@ -29,7 +41,7 @@ def client(app):
     return app.test_client()
 
 
-def populate_database(db):
+def populate_database(db, date):
     """Add some entries to the database for testing."""
     desks = []
     desks.append(Desk(name="DESK-01"))
@@ -39,20 +51,20 @@ def populate_database(db):
     bookings = []
     bookings.append(Booking(
         name="Harry Lime",
-        from_when=time(9, 0),
-        until_when=time(17, 0),
+        from_when=datetime.combine(date, time(9, 0)),
+        until_when=datetime.combine(date, time(17, 0)),
         desk=desks[0]
         ))
     bookings.append(Booking(
         name="Kaiser Söze",
-        from_when=time(9, 0),
-        until_when=time(12, 0),
+        from_when=datetime.combine(date, time(9, 0)),
+        until_when=datetime.combine(date, time(12, 0)),
         desk=desks[1]
         ))
     bookings.append(Booking(
         name="Sam Spade",
-        from_when=time(13, 0),
-        until_when=time(16, 0),
+        from_when=datetime.combine(date, time(13, 0)),
+        until_when=datetime.combine(date, time(16, 0)),
         desk=desks[1]
         ))
 

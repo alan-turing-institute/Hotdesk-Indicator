@@ -1,5 +1,6 @@
 """Test the desks route."""
 import pytest
+import re
 
 
 @pytest.fixture
@@ -28,7 +29,11 @@ class TestContents():
         )
     def test_table_rows(self, desks_response, number, name):
         """Test the booking table rows."""
-        row = f"""<tr>
+        row = rf"""<tr>
             <th scope="row">{number}</th>
-            <td>{name}</td>"""
-        assert row in desks_response.get_data(as_text=True)
+            <td>{name}</td>
+\s+
+            <td>Free</td>
+\s+
+        </tr>"""
+        assert re.search(row, desks_response.get_data(as_text=True))

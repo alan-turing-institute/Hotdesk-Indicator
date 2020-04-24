@@ -34,13 +34,13 @@ class Booking(db.Model):
     __tablename__ = 'bookings'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=False)
-    from_when = db.Column(db.Time, unique=False)
-    until_when = db.Column(db.Time, unique=False)
+    from_when = db.Column(db.DateTime, unique=False)
+    until_when = db.Column(db.DateTime, unique=False)
     desk_id = db.Column(db.Integer, db.ForeignKey('desks.id'))
 
     def is_active(self):
         """Find if a booking is currently active."""
-        current_time = datetime.datetime.now().time()
+        current_time = datetime.datetime.now()
         active = (
             current_time >= self.from_when and current_time < self.until_when
             )

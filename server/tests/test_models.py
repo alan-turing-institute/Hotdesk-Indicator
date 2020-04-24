@@ -57,15 +57,17 @@ class TestBookings():
          ("Kaiser Söze", time(9, 00), time(12, 00), "DESK-02"),
          ("Sam Spade", time(13, 00), time(16, 00), "DESK-02")]
         )
-    def test_existing(self, app, name, from_when, until_when, desk_name):
+    def test_existing(self, yesterday, app, name, from_when, until_when,
+                      desk_name):
         """Ensure the bookings initialised in the app fixture are present."""
         with app.app_context():
             booking = Booking.query.filter_by(name=name).all()
             assert len(booking) == 1
             booking = booking[0]
             assert booking.name == name
-            assert booking.from_when == from_when
-            assert booking.until_when == until_when
+            assert booking.from_when == datetime.combine(yesterday, from_when)
+            assert booking.until_when == datetime.combine(yesterday,
+                                                          until_when)
             assert booking.desk.name == desk_name
 
     def test_size(self, app):
@@ -74,14 +76,14 @@ class TestBookings():
             bookings = Booking.query.all()
             assert len(bookings) == 3
 
-    def test_add(self, app):
+    def test_add(self, app, today):
         """Test adding a booking."""
         with app.app_context():
             desk = Desk.query.filter_by(name="DESK-03").first()
             booking = Booking(
                 name="Richard Hannay",
-                from_when=time(10, 30),
-                until_when=time(14, 15),
+                from_when=datetime.combine(today, time(10, 30)),
+                until_when=datetime.combine(today, time(14, 15)),
                 desk=desk
                 )
 
@@ -95,8 +97,10 @@ class TestBookings():
                 Booking.query.filter_by(name="Richard Hannay").first()
                 )
             assert new_booking.name == "Richard Hannay"
-            assert new_booking.from_when == time(10, 30)
-            assert new_booking.until_when == time(14, 15)
+            assert new_booking.from_when == datetime.combine(today,
+                                                             time(10, 30))
+            assert new_booking.until_when == datetime.combine(today,
+                                                              time(14, 15))
             assert new_booking.desk == desk
             assert new_booking.desk_id == desk.id
 
@@ -124,8 +128,8 @@ class TestActiveAndBooked:
             desk = Desk.query.filter_by(name="DESK-03").first()
             booking = Booking(
                 name="Richard Hannay",
-                from_when=current_time.time(),
-                until_when=(current_time + timedelta(minutes=1)).time(),
+                from_when=current_time,
+                until_when=(current_time + timedelta(minutes=1)),
                 desk=desk
                 )
 
@@ -147,8 +151,8 @@ class TestActiveAndBooked:
             desk = Desk.query.filter_by(name="DESK-03").first()
             booking = Booking(
                 name="Richard Hannay",
-                from_when=(current_time - timedelta(minutes=1)).time(),
-                until_when=current_time.time(),
+                from_when=(current_time - timedelta(minutes=1)),
+                until_when=current_time,
                 desk=desk
                 )
 

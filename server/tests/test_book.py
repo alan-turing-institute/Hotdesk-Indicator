@@ -8,7 +8,7 @@ def test_book_response(client):
     assert "<h1>Book a Desk" in response.get_data(as_text=True)
 
 
-def test_book(client):
+def test_book(client, today):
     """Test booking a desk."""
     current_time = datetime.now()
     from_when = current_time.strftime("%H:%M")
@@ -19,6 +19,7 @@ def test_book(client):
         data={
             "name": "Richard Hannay",
             "desk": 3,
+            "date": today,
             "from_when": from_when,
             "until_when": until_when
             },
@@ -39,7 +40,7 @@ def test_book(client):
     assert row in response.get_data(as_text=True)
 
 
-def test_book_inactive(client):
+def test_book_inactive(client, today):
     """Test booking a desk."""
     current_time = datetime.now()
     from_when = (current_time - timedelta(minutes=1)).strftime("%H:%M")
@@ -50,6 +51,7 @@ def test_book_inactive(client):
         data={
             "name": "Richard Hannay",
             "desk": 3,
+            "date": today,
             "from_when": from_when,
             "until_when": until_when
             },
