@@ -1,10 +1,25 @@
 """Main app forms."""
 from ..models import Desk
-import datetime
+from datetime import datetime, timedelta
 from flask_wtf import FlaskForm
 from wtforms import (StringField, SubmitField, DateField, DateTimeField,
                      SelectField)
 from wtforms.validators import DataRequired
+
+
+def current_date():
+    """Return the current date."""
+    return datetime.now().date()
+
+
+def current_time():
+    """Return the current time."""
+    return datetime.now()
+
+
+def next_hour():
+    """Return the current time plus one hour."""
+    return datetime.now() + timedelta(hours=1)
 
 
 class BookingForm(FlaskForm):
@@ -12,12 +27,13 @@ class BookingForm(FlaskForm):
 
     name = StringField('Name', validators=[DataRequired()])
     desk = SelectField('Desk', coerce=int, validators=[DataRequired()])
-    date = DateField('Date')
+    date = DateField('Date', default=current_date,
+                     validators=[DataRequired()])
     from_when = DateTimeField('From when', format="%H:%M",
-                              default=datetime.datetime.now(),
+                              default=current_time,
                               validators=[DataRequired()])
     until_when = DateTimeField('Until when', format="%H:%M",
-                               default=datetime.datetime.now(),
+                               default=next_hour,
                                validators=[DataRequired()])
     submit = SubmitField('Submit')
 
