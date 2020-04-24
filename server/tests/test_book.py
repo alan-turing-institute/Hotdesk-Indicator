@@ -33,6 +33,7 @@ def test_book(client, today):
             <th scope="row">4</th>
             <td>DESK-03</td>
             <td>Richard Hannay</td>
+            <td>{today.strftime("%Y-%m-%d")}</td>
             <td>{from_when}</td>
             <td>{until_when}</td>
             <td>Yes</td>
@@ -65,6 +66,7 @@ def test_book_inactive(client, today):
             <th scope="row">4</th>
             <td>DESK-03</td>
             <td>Richard Hannay</td>
+            <td>{today.strftime("%Y-%m-%d")}</td>
             <td>{from_when}</td>
             <td>{until_when}</td>
             <td>No</td>

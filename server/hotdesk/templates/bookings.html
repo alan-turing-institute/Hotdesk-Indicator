@@ -9,6 +9,7 @@
             <th scope="col">#</th>
             <th scope="col">Desk</th>
             <th scope="col">Name</th>
+            <th scope="col">Date</th>
             <th scope="col">From</th>
             <th scope="col">Until</th>
             <th scope="col">Active</th>
@@ -20,6 +21,7 @@
             <th scope="row">{{ booking.id }}</th>
             <td>{{ booking.desk.name }}</td>
             <td>{{ booking.name }}</td>
+            <td>{{ booking.from_when.strftime("%Y-%m-%d") }}</td>
             <td>{{ booking.from_when.strftime("%H:%M") }}</td>
             <td>{{ booking.until_when.strftime("%H:%M") }}</td>
             <td>{{ "Yes" if booking.is_active() else "No" }}</td>

@@ -27,12 +27,13 @@ class TestContents():
          ("3", "DESK-02", "Sam Spade", "13:00", "16:00")]
         )
     def test_table_rows(self, bookings_response, number, desk_id, name,
-                        from_when, until_when):
+                        from_when, until_when, yesterday):
         """Test the booking table rows."""
         row = f"""<tr>
             <th scope="row">{number}</th>
             <td>{desk_id}</td>
             <td>{name}</td>
+            <td>{yesterday.strftime("%Y-%m-%d")}</td>
             <td>{from_when}</td>
             <td>{until_when}</td>
             <td>No</td>
