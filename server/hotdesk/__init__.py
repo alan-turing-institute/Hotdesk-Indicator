@@ -8,7 +8,7 @@ import pathlib
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
-migrate = Migrate()
+migrate = Migrate(compare_type=True)
 
 
 def create_app(test_config=None):
