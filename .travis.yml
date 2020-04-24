@@ -13,4 +13,4 @@ jobs:
       before_install: pip install pytest pytest-cov codecov
       install: pip install ./server
       script: pytest -v --cov=./server/hotdesk ./server
-      after_sucess: codecov
+      after_success: codecov
