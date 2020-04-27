@@ -45,3 +45,25 @@ class Booking(db.Model):
             current_time >= self.from_when and current_time < self.until_when
             )
         return active
+
+    def overlap(self, other):
+        """
+        Test if two bookings overlap.
+
+        :arg other: The booking to test against.
+        :type other: :class:`Booking`
+
+        :returns: `True` if the two bookings conflict, `False` otherwise.
+        :rtype: bool
+        """
+        # If other begins after self beings, but also begins before self ends
+        if self.from_when <= other.from_when:
+            if other.from_when < self.until_when:
+                return True
+
+        # Vice versa
+        if other.from_when <= self.from_when:
+            if self.from_when < other.until_when:
+                return True
+
+        return False

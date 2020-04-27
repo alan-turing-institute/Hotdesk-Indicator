@@ -116,6 +116,38 @@ class TestBookings():
             bookings = Booking.query.all()
             assert len(bookings) == 2
 
+    @pytest.mark.parametrize(
+        "a_start,a_end,b_start,b_end,overlap",
+        [
+            ((10, 30), (14, 15), (11, 00), (12, 00), True),
+            ((10, 30), (14, 15), (11, 00), (16, 00), True),
+            ((10, 30), (14, 15), (9, 00), (12, 00), True),
+            ((10, 30), (14, 15), (16, 10), (20, 00), False),
+            ((10, 30), (14, 15), (14, 15), (15, 00), False),
+            ]
+        )
+    def test_overlap(self, app, today, a_start, a_end, b_start, b_end,
+                     overlap):
+        """Test the overlap method."""
+        with app.app_context():
+            desk = Desk.query.filter_by(name="DESK-03").first()
+
+            booking_a = Booking(
+                name="Richard Hannay",
+                from_when=datetime.combine(today, time(*a_start)),
+                until_when=datetime.combine(today, time(*a_end)),
+                desk=desk
+                )
+            booking_b = Booking(
+                name="Murakami",
+                from_when=datetime.combine(today, time(*b_start)),
+                until_when=datetime.combine(today, time(*b_end)),
+                desk=desk
+                )
+
+            assert booking_a.overlap(booking_b) == overlap
+            assert booking_b.overlap(booking_a) == overlap
+
 
 class TestActiveAndBooked:
     """Test the is_active and is_booked methods."""
