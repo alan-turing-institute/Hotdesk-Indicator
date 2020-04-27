@@ -157,3 +157,51 @@ def test_book_no_overlap(client, today):
 
     assert response.status_code == 200
     assert "Your desk is booked!" in response.get_data(as_text=True)
+
+
+def test_book_inverse_time(client, today):
+    """Test booking a desk."""
+    current_time = datetime.now()
+    from_when = current_time.strftime("%H:%M")
+    until_when = (current_time - timedelta(hours=1)).strftime("%H:%M")
+
+    response = client.post(
+        "/book",
+        data={
+            "name": "Richard Hannay",
+            "desk": 3,
+            "date": today,
+            "from_when": from_when,
+            "until_when": until_when
+            },
+        follow_redirects=True
+        )
+
+    assert response.status_code == 200
+    assert (
+        "Your request ends after it begins." in response.get_data(as_text=True)
+        )
+
+
+def test_book_zero_time(client, today):
+    """Test booking a desk."""
+    current_time = datetime.now()
+    from_when = current_time.strftime("%H:%M")
+    until_when = current_time.strftime("%H:%M")
+
+    response = client.post(
+        "/book",
+        data={
+            "name": "Richard Hannay",
+            "desk": 3,
+            "date": today,
+            "from_when": from_when,
+            "until_when": until_when
+            },
+        follow_redirects=True
+        )
+
+    assert response.status_code == 200
+    assert (
+        "Your request is for zero time." in response.get_data(as_text=True)
+        )

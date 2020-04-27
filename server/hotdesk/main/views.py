@@ -35,11 +35,21 @@ def book():
         if any((booking.overlap(other) for other in bookings)):
             flash("Your request overlaps with an existing booking.")
             return render_template('book.html', form=form)
-        else:
-            db.session.add(booking)
-            db.session.commit()
-            flash('Your desk is booked!')
-            return redirect(url_for('main.bookings'))
+
+        # Ensure the booking ends after it begins
+        if booking.from_when > booking.until_when:
+            flash("Your request ends after it begins.")
+            return render_template('book.html', form=form)
+
+        # Ensure the booking is not for zero time
+        if booking.from_when == booking.until_when:
+            flash("Your request is for zero time.")
+            return render_template('book.html', form=form)
+
+        db.session.add(booking)
+        db.session.commit()
+        flash('Your desk is booked!')
+        return redirect(url_for('main.bookings'))
     return render_template('book.html', form=form)
 
 
