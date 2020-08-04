@@ -1,0 +1,1 @@
+"""Hotdesk indicator module."""

@@ -1,42 +1,28 @@
-import argparse
-from PIL import Image, ImageFont, ImageDraw
+"""Functions for manipulating the hotdesk indicators display."""
 from inky import InkyPHAT
+from PIL import Image, ImageFont, ImageDraw
 from font_source_sans_pro import SourceSansPro
 
-COLOUR = "red"
 BLACK = InkyPHAT.BLACK
 WHITE = InkyPHAT.WHITE
 RED = InkyPHAT.RED
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--status", "-s", type=str, required=True, choices=["taken", "free"],
-        help="The status of the desk, either 'taken' or 'free'"
-        )
-    parser.add_argument(
-        "--desk-id", "-i", type=str, required=True,
-        help="A unique identifier for the desk (used for booking)"
-        )
-    parser.add_argument(
-        "--name", "-n", type=str, required=False,
-        help="The name of the person who has reserved the desk"
-        )
-    parser.add_argument(
-        "--until", "-u", type=str, required=False,
-        help="The time when a desk is free until"
-        )
-
-    clargs = parser.parse_args()
-
-    inky_display = InkyPHAT(COLOUR)
-
-    update_display(inky_display, clargs.status, clargs.desk_id, clargs.name,
-                   clargs.until)
-
-
 def text_box(draw, coordinates, text, font, alert=False):
+    """
+    Write a text box to an image.
+
+    :arg draw: Draw object for the PIL image to be written to the display.
+    :type draw: :class:`PIL.ImageDraw.Draw`
+    :arg coordinates: A tuple defining the bounds of the text box, in the
+        format (top left x coordinate, top left y coordinate, bottom right x
+        coordinate, bottom right y coordinate).
+    :type coordinates: tuple(int, int, int, int)
+    :arg font: Font to use.
+    :type font: :class:`PIL.ImageFont.FreeTypeFont`
+    :arg bool alert: If `True` the background of the text box is rendered in
+        colour. Default is `False`.
+    """
     if alert:
         box_colour = RED
         outline_colour = BLACK
@@ -63,6 +49,18 @@ def text_box(draw, coordinates, text, font, alert=False):
 
 
 def update_display(inky_display, status, desk_id, name=None, until=None):
+    """
+    Update the indicators display according to its status.
+
+    :arg inky_display: Display to update.
+    :type inky_display: :class:`inky.InkypHAT`
+    :arg str status: Desk status, one of 'taken' or 'free'.
+    :arg str desk_id: Desk unique identifier.
+    :arg str name: Name of the person who has booked the desk. Only used when
+        status is 'taken'. Default is `None`.
+    :arg str until: Time when the desk will no longer be free. Only used when
+        status is 'free'. Default is `None`.
+    """
     image = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
     draw = ImageDraw.Draw(image)
 
@@ -97,7 +95,3 @@ def update_display(inky_display, status, desk_id, name=None, until=None):
     inky_display.set_image(image)
     # Display image
     inky_display.show()
-
-
-if __name__ == "__main__":
-    main()

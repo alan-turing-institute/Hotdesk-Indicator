@@ -1,3 +1,4 @@
+"""Hotdesk Indicator."""
 from setuptools import setup, find_packages
 
 setup(
@@ -6,11 +7,13 @@ setup(
     packages=find_packages(),
     install_requites=[
         "inky",
-        "font-source-sans-pro"
+        "font-source-sans-pro",
+        "requests"
         ],
     entry_points={
         "console_scripts": [
-            "hotdesk-indicator = hotdesk_indicator.__main__:main"
+            "hotdesk-set = hotdesk_indicator.scripts.set:main",
+            "hotdesk-get = hotdesk_indicator.scripts.get:main"
             ]
         }
     )

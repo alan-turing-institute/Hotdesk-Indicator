@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<h1>Desks</h1>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for desk in desks %}
+        <tr>
+            <th scope="row">{{ desk.id }}</th>
+            <td>{{ desk.name }}</td>
+            {% if desk.is_booked() %}
+            <td>{{ "Booked until {}".format(desk.active_booking().until_when.strftime('%H:%M')) }}</td>
+            {% else %}
+            <td>Free</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
