@@ -40,6 +40,7 @@ def create_app(test_config=None):
     app.register_blueprint(api_blueprint)
 
     from .models import Desk, Booking
+
     @app.shell_context_processor
     def make_shell_context():
         """Create context for the `flask shell` session."""
